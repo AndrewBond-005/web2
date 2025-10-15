@@ -21,3 +21,12 @@ export function validateInput(input) {
     if (!ACCEPTABLE_R.includes(input.r)) throw new Error('Недопустимое значение R!');
     return true;
 }
+export function validatePoint(x,y,r) {
+    if (isNaN(x)) throw new Error('Поле X должно быть числом от -5 до 5!');
+    if (isNaN(y)) throw new Error('Поле Y должно быть числом!');
+    if (isNaN(r)) throw new Error('Поле R должно быть числом!');
+    if (!ACCEPTABLE_Y.includes(y)) throw new Error('Недопустимое значение Y!');
+    if (x < -5 || x > 5) throw new Error('Поле X должно быть числом от -5 до 5!');
+    if (!ACCEPTABLE_R.includes(r)) throw new Error('Недопустимое значение R!');
+    return true;
+}

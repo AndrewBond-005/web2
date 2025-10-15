@@ -1,4 +1,4 @@
-import { validateInput, parseNumber } from './validation.js';
+import { validateInput, parseNumber, validatePoint } from './validation.js';
 import { clearTable, saveResults, addResults } from './table.js';
 import { drawArea, drawPoint, getXYR, drawLabel, addPoint, clearPoints, redrawArea, clearArea } from './area.js';
 
@@ -39,10 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
-
-
 canvas.addEventListener('click', async function (event) {
+    try{    
     if (isNaN(Number(R)) || R == null) {
         showError("Нельзя ставить точку без точного R");
         return;
@@ -51,21 +49,16 @@ canvas.addEventListener('click', async function (event) {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     const [x0, y0, r0] = getXYR();
-    const mathX = (x - x0) / r0;
-    const mathY = (y0 - y) / r0;
+    const x1 = (x - x0) / r0;
+    const y1 = (y0 - y) / r0;
     await processPoint(mathX, mathY, R);
-    addPoint(mathX, mathY, "попал");
-    drawPoint(mathX, mathY, "попал");
-    //alert(x.toFixed(1)+", "+ y.toFixed(1) +" -> "+ mathX.toFixed(3)+", "+mathY.toFixed(3));
+    //alert(x.toFixed(1)+", "+ y.toFixed(1) +" -> "+ x1.toFixed(3)+", "+y1.toFixed(3));
+    }catch (error) {
+        showError(error.message);
+    }
 });
-async function calculate(x, y, r) {
+async function send(input) {
     try {
-        const input = {
-            x: x,
-            y: y,
-            r: r
-        };
-        if (validateInput(input)) {
             const params = new URLSearchParams(input);
             const response = await fetch("/Web2/controller?" + params.toString());
 
@@ -82,7 +75,6 @@ async function calculate(x, y, r) {
             } else {
                 throw new Error('Сервер вернул ошибку: ' + answer.reason);
             }
-        }
     }
     catch (error) {
         showError(error.message);
@@ -90,22 +82,23 @@ async function calculate(x, y, r) {
     return null;
 }
 async function processPoint(x, y, r) {
-    let answer = await calculate(x, y, r);
-    some(answer);
+    const input = {
+            x: x,
+            y: y,
+            r: r
+        };
+        let answer = await send(input);
+        processAnswer(answer);
 }
-function some(answer){
+function processAnswer(answer){
     if (answer != null) {
-        alert(answer.isHit);
-        alert(typeof answer.isHit);
-        alert(String(answer.isHit)==="true");
-        alert(String(answer.isHit)=="true");
-        addPoint(answer.x, answer.y,String(answer.isHit));
-        drawPoint(answer.x, answer.y, String(answer.isHit));
+        addPoint(answer.x, answer.y,answeer.r, String(answer.isHit));
+        drawPoint(answer.x, answer.y,answeer.r, String(answer.isHit));
         //saveResults(answer, prevResults);
         addResults(answer);
     }
+    else showError("Сервер ответил пустой строкой")
 }
-
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
     try {
@@ -126,7 +119,8 @@ form.addEventListener('submit', async function (event) {
         };
         some(ans);
         /*/
-        await processPoint(parseNumber(data.x), parseNumber(data.y), R);
+        if(validatePoint(data.x,data.y,R));
+            await processPoint(parseNumber(data.x), parseNumber(data.y), R);
     } catch (error) {
         showError(error.message);
     }
@@ -135,8 +129,9 @@ clearButton.addEventListener('click', function (event) {
     event.preventDefault();
     clearTable();
     clearArea();
+    drawArea();
     //localStorage.setItem('resultRow', JSON.stringify([]));
-    prevResults = [];
+    //prevResults = [];
 });
 function showError(message) {
     errorTag.textContent = "Ошибка: " + message;

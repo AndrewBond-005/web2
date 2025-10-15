@@ -3,11 +3,12 @@ const ctx = canvas.getContext('2d');
 let x0 = canvas.width / 2;
 let y0 = canvas.height / 2;
 let r0 = x0 *0.55;
+let r1 = x0 *0.55;
+let R=3;
 let width = canvas.width;
 let height = canvas.height;
 let pi = Math.PI;
 let points = [];
-let R=3;
 export function getXYR() {
     return [x0, y0, r0];
 }
@@ -15,13 +16,13 @@ export function redrawArea(r){
     clearArea();
     setR(r)
     drawArea();
-    drawLabel(R);
+    drawLabel(r);
     drawPoints();
 }
 function setR(r){
-    r0=r0/R;
+    r1=r1/R;
     R=r;
-    r0=r0*R; 
+    r1=r1*R;
 }
 export function drawArea() {
     ctx.fillStyle = "#0f01caff";
@@ -129,17 +130,18 @@ export function drawLabel(n) {
         }
     }
 }
-export function addPoint(x, y, hit) {
+export function addPoint(x, y,r, hit) {
     points.push({
         x: x,
         y: y,
+        r:r,
         hit: hit
     });
 }
-export function drawPoint(x, y, hit) {
+export function drawPoint(x, y,r, hit) {
 
     ctx.beginPath();
-    ctx.arc(x0 + x * r0, y0 - y * r0, 4, 0, pi * 2);
+    ctx.arc(x0 + x*r0*r/R, y0 -y*r0*r/R, 4, 0, pi * 2);
     ctx.fillStyle = (hit == "true" ? "#0ea800ff" : "#9c0000ff");
     ctx.fill();
     ctx.lineWidth = 1;
@@ -148,7 +150,7 @@ export function drawPoint(x, y, hit) {
 }          
 function drawPoints(){
     points.forEach(point => {
-        drawPoint(point.x, point.y,point.hit);
+        drawPoint(point.x, point.y,point.r,point.hit);
     });
 }
 export function getPoints(){
