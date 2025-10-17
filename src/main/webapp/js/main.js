@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const x = parseFloat(cells[0].textContent);
             const y = parseFloat(cells[1].textContent);
             const r = parseInt(cells[2].textContent);
-            const isHit = cells[5].textContent.trim() === 'попал';
+            const isHit = cells[3].textContent.trim() === 'попал';
             if (!isNaN(x) && !isNaN(y) && !isNaN(r)) {
                 addPoint(x, y, r, isHit.toString());
             }
