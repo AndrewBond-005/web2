@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
-
 document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById('resultTable');
     const tableBody = table.getElementsByTagName('tbody');
