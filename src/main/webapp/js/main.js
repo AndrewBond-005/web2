@@ -68,7 +68,7 @@ async function send(input) {
     try {
         const params = new URLSearchParams(input);
         const response = await fetch("/Web2/controller?" + params.toString());
-        if (response.status == 404) {
+        if (response.status === 404) {
             throw new Error('Сервер не найден');
         }
         const contentType = response.headers.get("content-type");
@@ -123,6 +123,10 @@ form.addEventListener('submit', async function (event) {
 });
 clearButton.addEventListener('click', function (event) {
     event.preventDefault();
+    let input={
+        clear:"true"
+    };
+    send(input);
     clearTable();
     clearArea();
     drawArea();
@@ -154,7 +158,6 @@ themeTag.addEventListener('click', function () {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateButtonText(newTheme);
-    alert(newTheme);
     setTheme(newTheme);
     redrawArea(R == null ? "R" : R);
 });

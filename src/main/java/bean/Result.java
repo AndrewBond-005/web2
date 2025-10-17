@@ -1,6 +1,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Result implements Serializable {
@@ -8,12 +9,25 @@ public class Result implements Serializable {
     private double y;
     private int r;
     private boolean isHit;
+    private String time;
+    private long executionTime;
 
-    public Result(double x, double y, int r, boolean isHit) {
+    public long getExecutionTime() {
+        return executionTime;
+    }
+
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
+    }
+
+
+    public Result(double x, double y, int r, boolean isHit, String time, long executionTime) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.isHit = isHit;
+        this.time = time;
+        this.executionTime = executionTime;
     }
 
     public double getX() {
@@ -48,6 +62,21 @@ public class Result implements Serializable {
         this.isHit = hit;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean hit) {
+        isHit = hit;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -57,12 +86,14 @@ public class Result implements Serializable {
         return isHit == result.isHit &&
                 x == result.x &&
                 y == result.y &&
-                r == result.r;
+                r == result.r &&
+                time== result.time &&
+                executionTime == result.executionTime;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, r, isHit);
+        return Objects.hash(x, y, r, isHit, time, executionTime);
     }
 
     @Override
@@ -72,6 +103,8 @@ public class Result implements Serializable {
                 ", y='" + y + '\'' +
                 ", r='" + r + '\'' +
                 ", isHit=" + isHit +
+                ", time=" + time +
+                ", executionTime=" + executionTime +
                 '}';
     }
 }

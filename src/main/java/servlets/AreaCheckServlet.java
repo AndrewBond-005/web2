@@ -25,10 +25,24 @@ public class AreaCheckServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         long startTime = System.nanoTime();
         String xstr = request.getParameter("x");
         String ystr = request.getParameter("y");
         String rstr = request.getParameter("r");
+        ResultBean bean = (ResultBean) request.getSession().getAttribute("results");
+        if (bean == null) {
+            bean = new ResultBean();
+            request.getSession().setAttribute("results", bean);
+        }
+        if(request.getParameter("clear")!=null){
+            bean.getResults().clear();
+            Map<String, Object> mess = new HashMap<>();
+            mess.put("clear", "ok");
+            out.write(new Gson().toJson(mess));
+            return;
+        }
         if (xstr == null || ystr == null || rstr == null) {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
@@ -36,21 +50,12 @@ public class AreaCheckServlet extends HttpServlet {
             var x = Double.parseDouble(xstr);
             var y = Double.parseDouble(ystr);
             var r = Integer.parseInt(rstr);
-            ResultBean bean = (ResultBean) request.getSession().getAttribute("results");
-            if (bean == null) {
-                bean = new ResultBean();
-                request.getSession().setAttribute("results", bean);
-            }
-            Result result = new Result(x, y, r, Checker.check(x, y, r));
-            bean.addResult(result);
-            long executionTime = (System.nanoTime() - startTime) / 1000;
             var time = LocalDateTime.now().format(TIME_FORMATTER);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+            Result result = new Result(x, y, r, Checker.check(x, y, r),time,0);
+            result.setExecutionTime((System.nanoTime() - startTime) / 1000);
+            bean.addResult(result);
             out.write(new Gson().toJson(result));
         } else {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
             Map<String, Object> error = new HashMap<>();
             error.put("error", 400);
             error.put("message", "Invalid parameters");

@@ -11,14 +11,14 @@ export function addResults(results) {
             result.x?.toString() ?? '',
             result.y?.toString() ?? '',
             result.r?.toString() ?? '',
+            result.isHit ? 'попал' : 'не попал',
             result.time ?? '',
             result.executionTime ?? '',
-            result.isHit ? 'попал' : 'не попал'
         ];
         cellsData.forEach((text, index) => {
             const cell = newRow.insertCell();
             cell.textContent = text;
-            if (index === 5) { 
+            if (index === 3) { 
                 cell.classList.add(result.isHit ? 'yes' : 'no');
             }
         });

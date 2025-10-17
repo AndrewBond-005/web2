@@ -17,9 +17,13 @@ public class ControllerServlet extends HttpServlet {
     //const response = await fetch("/controller?" + params.toString());
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            if (request.getParameter("x") != null && request.getParameter("y") != null && request.getParameter("r") != null) {
+            if (request.getParameter("x") != null && request.getParameter("y") != null && request.getParameter("r") != null ) {
                 request.getRequestDispatcher("./check").forward(request, response);
-            } else {
+            }
+            else if(request.getParameter("clear") != null){
+                request.getRequestDispatcher("./check").forward(request, response);
+            }
+            else {
                 request.getRequestDispatcher("./index.jsp").forward(request, response);
             }
         } catch (ServletException | IOException e) {

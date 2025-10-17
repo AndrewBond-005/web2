@@ -11,7 +11,7 @@
 </head>
 <body>
 <table id="main">
-	<caption><b><h1>Лабораторная работа №1 по веб-программированию</h1></b></caption>
+	<caption><b><h1>Лабораторная работа №2 по веб-программированию</h1></b></caption>
 	<colgroup>
 		<col id="col1">
 		<col id="col2">
@@ -20,7 +20,7 @@
 	<thead>
 	<tr>
 		<th colspan="3">
-			<header>Выполнил: Бондаренко Андрей Владимирович P3215 Вариант: 465259</header>
+			<header>Выполнил: Бондаренко Андрей Владимирович P3215 Вариант: 73301</header>
 			<button id="themeTag">🌙</button>
 		</th>
 	</tr>
@@ -73,9 +73,9 @@
 					<th>X</th>
 					<th>Y</th>
 					<th>R</th>
+					<th>Результат</th>
 					<th>Текущее время</th>
 					<th>Время работы (мкс)</th>
-					<th>Результат</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -87,9 +87,9 @@
 					<td><%= result.getX() %></td>
 					<td><%= result.getY() %></td>
 					<td><%= result.getR() %></td>
-					<td></td>
-					<td></td>
 					<td class="<%= result.getIsHit() ? "yes" : "no" %>"><%= result.getIsHit() ? "попал" : "не попал" %></td>
+					<td><%= result.getTime() %></td>
+					<td><%= result.getExecutionTime() %></td>
 				</tr>
 				<%
 					}
@@ -100,7 +100,7 @@
 	</tr>
 	<tfoot>
 	<tr>
-		<th colspan="3">Copyright GOYDA© 2025. <a href="https://github.com/AndrewBond-005/web1">github</a></th>
+		<th colspan="3">Copyright GOYDA© 2025. <a href="https://github.com/AndrewBond-005/web2">github</a></th>
 	</tr>
 	</tfoot>
 </table>
