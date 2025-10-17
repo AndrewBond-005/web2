@@ -13,7 +13,7 @@ public class Validator {
             var x1 = Double.parseDouble(x.replace(",", "."));
             var y1 = Double.parseDouble(y.replace(",", "."));
             var r1 = Integer.parseInt(r.replace(",", "."));
-            if (!ACCEPTABLE_Y.contains(y1)) return false;
+           // if (!ACCEPTABLE_Y.contains(y1)) return false;
             if (x1 < MIN_X || x1 > MAX_X) return false;
             if (!ACCEPTABLE_R.contains(r1)) return false;
             return true;

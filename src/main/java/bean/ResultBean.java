@@ -11,7 +11,7 @@ public class ResultBean implements Serializable {
         this.results = new ArrayList<>();
     }
     public void addResult(Result result) {
-        this.results.add(result);
+        this.results.add(0, result);
     }
 
     public List<Result> getResults() {

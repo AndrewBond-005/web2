@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException; // Changed
@@ -40,14 +42,7 @@ public class AreaCheckServlet extends HttpServlet{
                 bean = new ResultBean();
                 request.getSession().setAttribute("results",bean);
             }
-            boolean exists = bean.getResults().stream().anyMatch(
-                    res -> res.getX() == x && res.getY() == y && res.getR() == r);
-            if (!exists) {
-                Result result = new Result(x, y, r, Checker.check(x, y, r));
-                bean.addResult(result);
-            }
-
-            Result result = new Result(x,y,r,Checker.check(x,y,r));
+            Result result = new Result(x, y, r, Checker.check(x, y, r));
             bean.addResult(result);
             long executionTime = (System.nanoTime() - startTime)/1000;
             //LocalDateTime.now().format(TIME_FORMATTER)
@@ -56,7 +51,12 @@ public class AreaCheckServlet extends HttpServlet{
             response.setCharacterEncoding("UTF-8");
             out.write(new Gson().toJson(result));
         }else{
-            out.print("Invalid parameters");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", 400);
+            error.put("message", "Invalid parameters");
+            out.write(new Gson().toJson(error));
         }
     }
 }
