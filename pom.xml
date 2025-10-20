@@ -31,7 +31,6 @@
                 <version>3.4.0</version>
             </plugin>
             <plugin>
-                <!--использовать или убрать-->
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>5.0.0.Final</version>
