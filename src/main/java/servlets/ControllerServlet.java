@@ -13,8 +13,6 @@ import java.util.Map;
 
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
-    //document.getElementById('r-hidden').value = Rnew;
-    //const response = await fetch("/controller?" + params.toString());
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             if (request.getParameter("x") != null && request.getParameter("y") != null && request.getParameter("r") != null ) {
