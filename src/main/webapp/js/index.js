@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 canvas.addEventListener('click', function (event) {
     if (isNaN(Number(R)) || R == null) {
-        showError("Нельзя ставить точку без точного R");
+        Error("Нельзя ставить точку без точного R");
         return;
     }
     const rect = canvas.getBoundingClientRect();
@@ -87,7 +87,7 @@ async function calculate(x, y, r) {
         }
     }
     catch (error) {
-        showError(error.message);
+        Error(error.message);
     }
     return null;
 }
@@ -110,7 +110,7 @@ form.addEventListener('submit', async function (event) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
         if (R === null || isNaN(R)) {
-            showError("Сначала выберите радиус R");
+            Error("Сначала выберите радиус R");
             return;
         }
         //*
@@ -126,7 +126,7 @@ form.addEventListener('submit', async function (event) {
         //
         await processPoint(parseNumber(data.x), parseNumber(data.y), R);
     } catch (error) {
-        showError(error.message);
+        Error(error.message);
     }
 });
 clearButton.addEventListener('click', function (event) {
@@ -136,7 +136,7 @@ clearButton.addEventListener('click', function (event) {
     //localStorage.setItem('resultRow', JSON.stringify([]));
     prevResults = [];
 });
-function showError(message) {
+function Error(message) {
     errorTag.textContent = "Ошибка: " + message;
     errorTag.style.display = "inline";
     errorCell.style.display = "inline";

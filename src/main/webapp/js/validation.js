@@ -16,14 +16,23 @@ export function validateInput(input) {
     return validatePoint(input.x,input.y,input.r);
 }
 export function validatePoint(x,y,r) {
+    return validateX(x) && validateY(y)&& validateR(r);
+}
+export function validateX(x){
     x = Number(parseNumber(x));
-    y = Number(parseNumber(y));
-    r = Number(parseNumber(r));
     if (isNaN(x)) throw new Error('Поле X должно быть числом от -5 до 5!');
-    if (isNaN(y)) throw new Error('Поле Y должно быть числом!');
-    if (isNaN(r)) throw new Error('Поле R должно быть числом!');
-    if (!ACCEPTABLE_Y.includes(y)) throw new Error('Недопустимое значение Y!');
     if (x < -5 || x > 5) throw new Error('Поле X должно быть числом от -5 до 5!');
+    return true;
+}
+export function validateY(y){
+    y = Number(parseNumber(y));
+    if (isNaN(y)) throw new Error('Поле Y должно быть числом!');
+    if (!ACCEPTABLE_Y.includes(y)) throw new Error('Недопустимое значение Y!');
+    return true;
+}
+export function validateR(r){
+    r = Number(parseNumber(r));
+    if (isNaN(r)) throw new Error('Поле R должно быть числом!');
     if (!ACCEPTABLE_R.includes(r)) throw new Error('Недопустимое значение R!');
     return true;
 }
