@@ -16,9 +16,9 @@ export function validateInput(input) {
     return validatePoint(input.x,input.y,input.r);
 }
 export function validatePoint(x,y,r) {
-    x = Number(x);
-    y = Number(y);
-    r = Number(r);
+    x = Number(parseNumber(x));
+    y = Number(parseNumber(y));
+    r = Number(parseNumber(r));
     if (isNaN(x)) throw new Error('Поле X должно быть числом от -5 до 5!');
     if (isNaN(y)) throw new Error('Поле Y должно быть числом!');
     if (isNaN(r)) throw new Error('Поле R должно быть числом!');

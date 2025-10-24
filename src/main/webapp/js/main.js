@@ -114,6 +114,7 @@ form.addEventListener('submit', async function (event) {
             showError("Сначала выберите радиус R");
             return;
         }
+
         if (validatePoint(data.x, data.y, R));
         await processPoint(parseNumber(data.x), parseNumber(data.y), R);
     } catch (error) {
