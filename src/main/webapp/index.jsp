@@ -32,7 +32,7 @@
 					<label for="x"><b>X:</b></label>
 					<input type="text" id="x" name="x" placeholder="число от -5 до 5">
 					<label for="y"><b>Y:</b></label>
-					<select id="y" name="y">
+					<select id="yform" name="yform">
 						<option value="-5">-5</option>
 						<option value="-4">-4</option>
 						<option value="-3">-3</option>
@@ -44,6 +44,7 @@
 						<option value="3">3</option>
 					</select>
 				<p></p>
+				<input type="hidden" id="y" name="y">
 				<label><strong>R:</strong></label>
 				<button type="button" id="r1" value="1" class="r-button">1</button>
 				<button type="button" id="r2" value="2" class="r-button">2</button>

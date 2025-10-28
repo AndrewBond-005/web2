@@ -18,6 +18,7 @@ const errorTag = document.getElementById('errorMessage');
 const errorCell = document.getElementById('errorCell');
 const themeTag = document.getElementById('themeTag');
 const xInput = document.getElementById('x');
+const yForm = document.getElementById('yform');
 const yInput = document.getElementById('y');
 const ElemR = document.getElementById('r-hidden');
 const clearParam = document.getElementById('clear');
@@ -102,16 +103,11 @@ async function processPoint(x, y, r,clear) {
 }
 async function send(input) {
     try {
-        const params = new URLSearchParams({
-            x: input.x,
-            y: input.y,
-            r: input.r,
-            clear: input.clear || 'false'
-        });
-        await fetch("/Web2/controller?" + params.toString(), {
-            method: 'GET'
-        });
-
+        xInput.value=input.x;
+        yInput.value=input.y;
+        ElemR.value=input.r;
+        clearParam.value=input.clear;
+        form.submit();
         /*
         const params = new URLSearchParams(input);
         const response = await fetch("/Web2/controller?" + params.toString());
@@ -159,6 +155,9 @@ xInput.addEventListener('input', function () {
         showError(e.message);
         updateSubmitButton(false);
     }
+});
+yForm.addEventListener('input', function () {
+    yInput.value=yForm.value;
 });
 clearButton.addEventListener('click', function (event) {
     event.preventDefault();
