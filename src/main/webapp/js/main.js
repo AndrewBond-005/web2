@@ -10,7 +10,7 @@ import {
     redrawArea,
     setTheme
 } from './area.js';
-import {validateX, validateY} from "./validation";
+import {validateR, validateX} from "./validation.js";
 
 const form = document.getElementById('inputForm');
 const clearButton = document.getElementById('clearButton');
@@ -20,6 +20,7 @@ const themeTag = document.getElementById('themeTag');
 const xInput = document.getElementById('x');
 const yInput = document.getElementById('y');
 const ElemR = document.getElementById('r-hidden');
+const clearParam = document.getElementById('clear');
 const submitButton = document.querySelector('input[type="submit"]');
 var R = null;
 drawArea();
@@ -38,15 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 R = Rnew;
                 ElemR.value = Rnew;
                 redrawArea(R);
-                updateSubmitButton(true);
+                if(xInput.value.trim() === ""){
+                    showError("Введите x");
+                } else{
+                    validateX(xInput.value)?hideError():null;
+                    updateSubmitButton(validateX(xInput.value));
+                }
             }
         });
     });
-
 });
 
 function updateSubmitButton(ok) {
-    submitButton.disabled = ok;
+    submitButton.disabled = !ok;
     submitButton.style.opacity = ok ? '1' : '0.5';
 }
 
@@ -79,20 +84,33 @@ canvas.addEventListener('click', async function (event) {
         const [x0, y0, r0] = getXYR();
         const x1 = (x - x0) * R / r0;
         const y1 = (y0 - y) * R / r0;
-        await processPoint(x1, y1, R);
+        await processPoint(x1, y1, R,false);
     } catch (error) {
         Error(error.message);
     }
 });
-
+async function processPoint(x, y, r,clear) {
+    alert("processPoint: "+y);
+    const input = {
+        x: x,
+        y: y,
+        r: r,
+        clear:clear|| false
+    };
+    let answer = await send(input);
+    processAnswer(answer);
+}
 async function send(input) {
     try {
-
-
-        xInput.value = input.x;
-        yInput.value = input.y;
-        ElemR.value = input.r;
-        form.submit();
+        const params = new URLSearchParams({
+            x: input.x,
+            y: input.y,
+            r: input.r,
+            clear: input.clear || 'false'
+        });
+        await fetch("/Web2/controller?" + params.toString(), {
+            method: 'GET'
+        });
 
         /*
         const params = new URLSearchParams(input);
@@ -117,17 +135,6 @@ async function send(input) {
     }
     return null;
 }
-
-async function processPoint(x, y, r) {
-    const input = {
-        x: x,
-        y: y,
-        r: r
-    };
-    let answer = await send(input);
-    processAnswer(answer);
-}
-
 function processAnswer(answer) {
     if (answer != null) {
         addPoint(answer.x, answer.y, answer.r, String(answer.isHit));
@@ -137,38 +144,25 @@ function processAnswer(answer) {
         Error("Сервер ответил пустой строкой");
     }
 }
-
-
-xInput.addEventListener('change', function () {
+xInput.addEventListener('input', function () {
     try {
-        const ok = validateX(xInput.value);
-        if (ok) {
+        if (validateX(xInput.value)) {
+            if(ElemR.value!==""){
+                updateSubmitButton(true);
+            }
+            else{
+                 new Error("Введите R");
+            }
             hideError();
-            updateSubmitButton(ok);
         }
     } catch (e) {
         showError(e.message);
+        updateSubmitButton(false);
     }
 });
-yInput.addEventListener('change', function () {
-    try {
-        const ok = validateY(yInput.value);
-        if (ok) {
-            hideError();
-            updateSubmitButton(ok);
-        }
-    } catch (e) {
-        showError(e.message);
-    }
-});
-
-
 clearButton.addEventListener('click', function (event) {
     event.preventDefault();
-    let input = {
-        clear: "true"
-    };
-    send(input);
+    send({clear: "true"});
     clearTable();
     clearArea();
     drawArea();
@@ -182,19 +176,16 @@ function Error(message) {
         hideError()
     }, 3000);
 }
-
 function showError(message) {
     errorTag.textContent = "Ошибка: " + message;
     errorTag.style.display = "inline";
     errorCell.style.display = "inline";
 }
-
 function hideError() {
     errorTag.textContent = "";
     errorTag.style.display = "none";
     errorCell.style.display = "none";
 }
-
 document.addEventListener('DOMContentLoaded', function () {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -213,7 +204,6 @@ themeTag.addEventListener('click', function () {
     setTheme(newTheme);
     redrawArea(R == null ? "R" : R);
 });
-
 function updateButtonText(theme) {
     themeTag.innerHTML = theme === 'dark' ? '☀️' : '🌙';
 }

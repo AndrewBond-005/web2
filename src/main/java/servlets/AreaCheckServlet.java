@@ -36,7 +36,7 @@ public class AreaCheckServlet extends HttpServlet {
             bean = new ResultBean();
             request.getSession().setAttribute("results", bean);
         }
-        if(request.getParameter("clear")!=null){
+        if(request.getParameter("clear")!=null && request.getParameter("clear").equals("true")){
             bean.getResults().clear();
             Map<String, Object> mess = new HashMap<>();
             mess.put("clear", "ok");

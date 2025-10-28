@@ -39,7 +39,7 @@ header {
 
 a:hover {
     color: #ffffff00;
-    visibility: none;
+    visibility: hidden;
     cursor: default;
 }
 
@@ -74,7 +74,7 @@ caption,
 tfoot th {
     /*атрибутов*/
     color: var(--text-color);
-    border-radius: px;
+    border-radius: 10px;
 }
 
 label {

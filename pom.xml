@@ -29,6 +29,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
+                <configuration>
+                    <outputDirectory>C:\Users\Admin\Desktop\2course\web\wildfly-38.0.0.Beta1\wildfly-38.0.0.Beta1\standalone\deployments</outputDirectory>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>

@@ -19,6 +19,7 @@ export function validatePoint(x,y,r) {
     return validateX(x) && validateY(y)&& validateR(r);
 }
 export function validateX(x){
+    if(x.trim() === ""){throw new Error("Введите x");}
     x = Number(parseNumber(x));
     if (isNaN(x)) throw new Error('Поле X должно быть числом от -5 до 5!');
     if (x < -5 || x > 5) throw new Error('Поле X должно быть числом от -5 до 5!');
@@ -31,6 +32,7 @@ export function validateY(y){
     return true;
 }
 export function validateR(r){
+    if(r==null){throw new Error("Введите R");}
     r = Number(parseNumber(r));
     if (isNaN(r)) throw new Error('Поле R должно быть числом!');
     if (!ACCEPTABLE_R.includes(r)) throw new Error('Недопустимое значение R!');

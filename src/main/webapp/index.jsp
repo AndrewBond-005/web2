@@ -51,6 +51,7 @@
 				<button type="button" id="r4" value="4" class="r-button">4</button>
 				<button type="button" id="r5" value="5" class="r-button">5</button>
 				<input type="hidden" name="r" id="r-hidden">
+				<input type="hidden" name="clear" id="clear">
 				</p>
 				<p>
 					<input type="submit" value="Отправить" />

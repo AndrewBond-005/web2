@@ -15,6 +15,8 @@ import java.util.Map;
 public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
             if (request.getParameter("x") != null && request.getParameter("y") != null && request.getParameter("r") != null ) {
                 request.getRequestDispatcher("./check").forward(request, response);
             }
